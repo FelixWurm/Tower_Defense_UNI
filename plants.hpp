@@ -11,6 +11,19 @@ Code zur steuerung der Pflanzen. geschriben für Aud Informatik Uni Osnabrück WS 
 #include <algoviz/SVG.hpp>
 #include <list>
 
+#ifndef  TILE_SIZE
+#define TILE_SIZE 40
+#endif
+
+#ifndef TILE_COUNT_X
+#define TILE_COUNT_X 9
+#endif
+
+#ifndef TILE_COUNT_Y
+#define TILE_COUNT_Y 5
+#endif
+
+
 
 class Plant {
 public:
@@ -48,20 +61,26 @@ private:
 
 
 
-class Muition {
+class ammunition {
 public:
-	Muition(int Position_x_in,int  Position_y_in,int type) {
+	ammunition() {
+
+	}
+
+	ammunition(int Position_x_in,int  Position_y_in,int type, SVG *pointer_to_window_in) {
 		this->position_x = Position_x_in;
 		this->position_y = Position_x_in;
+		this->pointer_to_window = pointer_to_window_in;
 	}
 
 	//this class also serves as a colision Detection System.
-	int Move_Munition(int Direction, int lenght) {
+	int Move_ammunition(int Direction, int lenght) {
 
 		//Chek if there are Zombies in the row
-		if () {
+		if (false) {
 			//Check if a Colision has hapend?
 		}
+		return -1;
 	}
 
 private:
@@ -69,7 +88,8 @@ private:
 	int position_y;
 	int type;
 	int Speed; //Speed in Pixel peer Tick
-	Circle SVG_MUNITION;
+	Circle SVG_ammunition;
+	SVG *pointer_to_window;
 };
 
 class Zombie {
@@ -77,11 +97,15 @@ public:
 	Zombie() {
 
 	}
+	Zombie(int Position_y_in, int type, int Speed, SVG * pointer_to_window_in) {
+		this->position_y = Position_y_in;
+	}
 private:
-	int position_x;
+	int position_x = TILE_SIZE* (TILE_COUNT_X + 1);
 	int position_y;
 	int type;
 	int Speed; //Speed in Pixel peer Tick
+	SVG* pointer_to_window;
 };
 
 
@@ -114,7 +138,7 @@ public:
 
 private:
 	list<Plant> List_of_PLants = list<Plant>();
-	list<Muition> List_of_Munition = list<Muition>();
+	list<ammunition> List_of_Munition = list<ammunition>();
 
 	SVG* pointer_to_window = nullptr;
 };
