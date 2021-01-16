@@ -5,6 +5,8 @@ Code zur steuerung der Pflanzen. geschriben für Aud Informatik Uni Osnabrück WS 
 
 #define Data_Type  c++
 #define Plant_Radius 15
+#define MUNITION_RADIUS 3;
+
 
 #include <algoviz/SVG.hpp>
 #include <list>
@@ -46,15 +48,15 @@ private:
 
 
 
-class Muition_Pfalnzen {
+class Muition {
 public:
-	Muition_Pfalnzen(int Position_x_in,int  Position_y_in,int type) {
+	Muition(int Position_x_in,int  Position_y_in,int type) {
 		this->position_x = Position_x_in;
 		this->position_y = Position_x_in;
 	}
 
 	//this class also serves as a colision Detection System.
-	int Move_Munition_Pflanzen(int Direction, int lenght) {
+	int Move_Munition(int Direction, int lenght) {
 
 		//Chek if there are Zombies in the row
 		if () {
@@ -66,7 +68,20 @@ private:
 	int position_x;
 	int position_y;
 	int type;
+	int Speed; //Speed in Pixel peer Tick
 	Circle SVG_MUNITION;
+};
+
+class Zombie {
+public:
+	Zombie() {
+
+	}
+private:
+	int position_x;
+	int position_y;
+	int type;
+	int Speed; //Speed in Pixel peer Tick
 };
 
 
@@ -82,6 +97,13 @@ public:
 	}
 
 	void Shoot_Munition() {
+		//Wook true each plant
+		for (int X = 0; X < List_of_PLants.size(); X++) {
+			
+		}
+	}
+
+	void Move_movable_Objekts() {
 
 	}
 
@@ -92,8 +114,7 @@ public:
 
 private:
 	list<Plant> List_of_PLants = list<Plant>();
-	list<int> List_of_Munition = list<int>();
-	list<int> Type_of_Munition = list<int>();
+	list<Muition> List_of_Munition = list<Muition>();
 
 	SVG* pointer_to_window = nullptr;
 };
