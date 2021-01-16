@@ -5,7 +5,7 @@ Code zur steuerung der Pflanzen. geschriben für Aud Informatik Uni Osnabrück WS 
 
 #define Data_Type  c++
 #define Plant_Radius 15
-#define MUNITION_RADIUS 3;
+#define MUNITION_RADIUS 5
 
 
 #include <algoviz/SVG.hpp>
@@ -56,7 +56,6 @@ private:
 	int Position_y;
 	int Type_of_plant;
 	Circle SVG_PLANT;
-	SVG* Tagrget_Playyground;
 };
 
 
@@ -67,15 +66,15 @@ public:
 
 	}
 
-	ammunition(int Position_x_in,int  Position_y_in,int type, SVG *pointer_to_window_in) {
+	ammunition(int Position_x_in, int  Position_y_in, int type, SVG *pointer_to_window) {
 		this->position_x = Position_x_in;
 		this->position_y = Position_x_in;
-		this->pointer_to_window = pointer_to_window_in;
 
 		//Different Typs:
 		if (type == 0) {
 			this->Speed = 1;
 		}
+		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
 	bool Move_ammunition() {
@@ -114,7 +113,6 @@ private:
 	int type;
 	int Speed; //Speed in Pixel peer Tick
 	Circle SVG_ammunition;
-	SVG *pointer_to_window;
 };
 
 class Zombie {
