@@ -3,7 +3,6 @@ Code zur steuerung der Pflanzen. geschriben für Aud Informatik Uni Osnabrück WS 
 
 */
 
-#define Data_Type  c++
 #define Plant_Radius 15
 #define MUNITION_RADIUS 5
 
@@ -58,8 +57,6 @@ private:
 	Circle SVG_PLANT;
 };
 
-
-
 class ammunition {
 public:
 	ammunition() {
@@ -68,7 +65,7 @@ public:
 
 	ammunition(int Position_x_in, int  Position_y_in, int type, SVG *pointer_to_window) {
 		this->position_x = Position_x_in;
-		this->position_y = Position_x_in;
+		this->position_y = Position_y_in;
 
 		//Different Typs:
 		if (type == 0) {
@@ -96,14 +93,15 @@ public:
 
 	int get_position(char Achse) {
 		if (Achse == 'x') {
-			return position_y;
-		}
-		else if (Achse == 'y') {
 			return position_x;
 		}
-		else {
-			return -1;
+
+		if (Achse == 'y') {
+			return position_y;
 		}
+
+		return -1;
+
 	}
 	
 
@@ -159,7 +157,7 @@ public:
 	void Shoot_Munition(int type) {
 		//Wook true each plant
 		for (int X = 0; X < List_of_PLants.size(); X++) {
-			List_of_Ammunition.push_back(ammunition(List_of_Ammunition[X].get_position('x'), List_of_Ammunition[X].get_position('y'), type, pointer_to_window));
+			List_of_Ammunition.push_back(ammunition(List_of_PLants[X].get_position('x'), List_of_PLants[X].get_position('y'), type, pointer_to_window));
 		}
 	}
 
@@ -167,10 +165,13 @@ public:
 	void Move_movable_Objekts() {
 		
 		//Move amo
-		int X;
+		int X = 0;
 		do {
-			if (List_of_Ammunition[X].Move_ammunition() == false) {
-				List_of_Ammunition.erase(List_of_Ammunition.begin()+X);
+			bool CASH = List_of_Ammunition[X].Move_ammunition();
+			if (CASH == false) {
+				vector<ammunition>::iterator it = List_of_Ammunition.begin();  // it steht auf Index 0
+				it = it + X;
+				List_of_Ammunition.erase(it);
 			}
 			else {
 				X++;
