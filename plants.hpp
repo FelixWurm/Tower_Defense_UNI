@@ -74,21 +74,16 @@ public:
 		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
-	bool Move_ammunition() {
+	int Move_ammunition() {
 		//Calculate new X Position
-		position_x = position_x + Speed;
+		this->position_x = this->position_x + this->Speed;
 
 		//Move Objekt
-		SVG_ammunition.moveTo(position_x, position_y);
+		//SVG_ammunition.moveTo(position_x, position_y);
 
 		//check if Objekt is still in view
-		if (position_x > ((TILE_COUNT_X + 1) * TILE_SIZE)) {
-			//Die Munition ist aus dem Bild geflogen.
-			return false;
-		}
-		else {
-			return true;
-		}
+
+		return 0;
 	}
 
 	int get_position(char Achse) {
@@ -109,7 +104,7 @@ private:
 	int position_x;
 	int position_y;
 	int type;
-	int Speed; //Speed in Pixel peer Tick
+	int Speed = 0; //Speed in Pixel peer Tick
 	Circle SVG_ammunition;
 };
 
@@ -163,18 +158,17 @@ public:
 
 	//Move Zomies and amunition. First the amo then the Zombies, Zombies test if they collide with Plants or amo
 	void Move_movable_Objekts() {
-		
 		//Move amo
 		int X = 0;
 		do {
-			bool CASH = List_of_Ammunition[X].Move_ammunition();
-			if (CASH == false) {
+			int CASH = List_of_Ammunition[X].Move_ammunition();
+			if (CASH == 1) {
 				vector<ammunition>::iterator it = List_of_Ammunition.begin();  // it steht auf Index 0
 				it = it + X;
 				List_of_Ammunition.erase(it);
 			}
 			else {
-				X++;
+				X = X+1;
 			}
 		} while (X <= List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
 		//Move Zombies
