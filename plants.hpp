@@ -120,27 +120,51 @@ public:
 		
 	}
 
-	Zombie(int Position_y_in, int type, SVG * pointer_to_window_in) {
+	Zombie(int Position_y_in, int type, SVG *pointer_to_window) {
+		position_x = TILE_SIZE * (TILE_COUNT_X + 1);
+
 		this->position_y = Position_y_in;
+		this->SVG_Zombie = Circle(position_x, position_y, Plant_Radius, pointer_to_window);
+		SVG_Zombie.setFill(50, 50, 50);
 
 		//Unterschiedliche Zombies
 		if (type == 0) {
 			this->Speed = 1;
+			this->Damege_to_Plant = 10;
+			this->live = 80;
 		}
-	}
-	int move_Zombie() {
-		pointer_to_window = pointer_to_window + Speed;
-		return -1;
 
+
+	}
+	
+	int Move_Zombie() {
+		position_x = position_x - Speed;
+
+		//Move Objekt
+		SVG_Zombie.moveTo(position_x, position_y);
+		return 1;
+	}
+
+	int get_position(char Achse) {	
+		if (Achse == 'x') {
+			return position_x;
+		}
+		if (Achse == 'y') {
+			return position_y;
+		}
+		return -1;
 	}
 
 private:
 	int position_y;
-	int position_x = TILE_SIZE* (TILE_COUNT_X + 1);
+	int position_x = 0;
 	int type;
-	int Speed; //Speed in Pixel peer Tick
+	
+	//Zombie / Game Values
+	int Speed = 0; //Speed in Pixel peer Tick
 	int live = 100; //Helth value of the Zombie
-	SVG* pointer_to_window;
+	int Damege_to_Plant;
+	Circle SVG_Zombie;
 };
 
 
@@ -162,7 +186,10 @@ public:
 		}
 	}
 
-	//Move Zomies and amunition. First the amo then the Zombies, Zombies test if they collide with Plants or amo
+	void Add_Zombie(int Position_y_in, int type) {
+		List_of_Zombies.push_back(Zombie(Position_y_in, type, pointer_to_window));
+	}
+
 	void Move_movable_Objekts() {
 		//Move amo
 		//NUR WENN MINDESTENS 1 Objekt da ist!!!!! sonst crasht das system
@@ -180,19 +207,51 @@ public:
 				}
 			} while (X < List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
 		}
+
+
 		//Move Zombies
+		if (!List_of_Zombies.empty()) {
+			for (size_t i = 0; i < List_of_Zombies.size(); i++){
+				int Zombie_Status = List_of_Zombies[i].Move_Zombie();
+			}
+		}
+
 
 	}
 
-	void Add_Zombie(int Position_y_in, int type) {
-		List_of_Zombies.push_back(Zombie(Position_y_in, type, pointer_to_window));
-	}
+
 
 
 private:
+
 	vector<Plant> List_of_PLants = vector<Plant>();
 	vector<ammunition> List_of_Ammunition = vector<ammunition>();
 	vector<Zombie> List_of_Zombies = vector<Zombie>();
 
 	SVG* pointer_to_window = nullptr;
+
+
+	void Check_Collision(bool Collision_Plants) {
+		//Check if any amo colids with any Zombie
+		for (int amo_NR = 0; amo_NR < List_of_Ammunition.size(); amo_NR++) {
+			for (int zombie_NR = 0; zombie_NR < List_of_Zombies.size(); zombie_NR++) {
+				if (List_of_Ammunition[amo_NR].get_position('y') == List_of_Zombies[amo_NR].get_position('y')) {
+					//wenn sie eine Munition auf in der selben zeile wie ein Zombie Befindet
+					if (List_of_Ammunition[amo_NR].get_position('x') == List_of_Zombies[amo_NR].get_position('x')) {
+						//Objekte sind Kolidirt
+
+						//Abzihen der Lebenspunkte vom Zombie
+
+						//Löschen der Amo
+
+						//Testen ob der Zombie Gestorben ist?, dann aus liste Löschen.
+					}
+				}
+			}
+		}
+		if (Collision_Plants == true) {
+
+		}
+
+	}
 };
