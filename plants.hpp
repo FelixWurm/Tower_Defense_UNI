@@ -237,7 +237,7 @@ public:
 			} while (X < List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
 		}
 
-		Check_Collision(false);
+		Check_Collision();
 
 		//Move Zombies
 		if (!List_of_Zombies.empty()) {
@@ -259,16 +259,18 @@ private:
 	SVG* pointer_to_window = nullptr;
 
 
-	void Check_Collision(bool Collision_Plants) {
+	void Check_Collision() {
 		//Check if any amo colids with any Zombie
 		int amo_NR = -1;
 		int zombie_NR = 0;
-			while (amo_NR < List_of_Ammunition.size() && (!List_of_Ammunition.empty()) && (!List_of_Zombies.empty())) {
+		if ((List_of_Ammunition.empty() == false) && (List_of_Zombies.empty() == false)) {
+			while (amo_NR <= List_of_Ammunition.size()) {
 				amo_NR = amo_NR + 1;
 				zombie_NR = -1;
-				while ((zombie_NR < List_of_Zombies.size()) && (!List_of_Zombies.empty())) {
+				while (zombie_NR <= List_of_Zombies.size()) {
 					//nächster Zombie
 					zombie_NR = zombie_NR + 1;
+
 					if (List_of_Ammunition[amo_NR].get_position('y') == List_of_Zombies[zombie_NR].get_position('y')) {
 						//wenn sie eine Munition auf in der selben zeile wie ein Zombie Befindet
 						int Distance = List_of_Ammunition[amo_NR].get_position('x') - List_of_Zombies[zombie_NR].get_position('x');
@@ -291,13 +293,18 @@ private:
 								vector<ammunition>::iterator it1 = List_of_Ammunition.begin();  // it steht auf Index 0
 								it1 = it1 + amo_NR;
 								List_of_Ammunition.erase(it1);
-
+								if (List_of_Ammunition.empty() == true) {
+									return;
+								}
 								//Testen ob der Zombie Gestorben ist?, dann aus liste Löschen.
 								if (Dead == 0) {
 									vector<Zombie>::iterator it2 = List_of_Zombies.begin();  // it steht auf Index 0
 									it2 = it2 + zombie_NR;
 									List_of_Zombies.erase(it2);
 									zombie_NR = zombie_NR - 1;
+									if (List_of_Zombies.empty() == true) {
+										return;
+									}
 								}
 								amo_NR = amo_NR - 1;
 							}
@@ -305,10 +312,8 @@ private:
 					}
 				}
 			}
-		
-		if (Collision_Plants == true) {
-
 		}
+
 
 	}
 };
