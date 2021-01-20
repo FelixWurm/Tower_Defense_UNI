@@ -35,7 +35,7 @@ public:
 		this->Position_x = Position_x_in;
 		this->Position_y = Position_y_in;
 		this->Type_of_plant = type;
-		this->SVG_PLANT = Circle(Position_x, Position_y, Plant_Radius, pointer_to_window);
+		SVG_PLANT = Circle(Position_x, Position_y, Plant_Radius, pointer_to_window);
 		SVG_PLANT.setFill(200, 0, 0);
 
 	}
@@ -74,16 +74,22 @@ public:
 		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
-	int Move_ammunition() {
+	bool Move_ammunition() {
 		//Calculate new X Position
-		this->position_x = this->position_x + this->Speed;
+		position_x = position_x + Speed;
 
 		//Move Objekt
-		//SVG_ammunition.moveTo(position_x, position_y);
+		SVG_ammunition.moveTo(position_x, position_y);
 
 		//check if Objekt is still in view
-
-		return 0;
+		if (position_x > ((TILE_COUNT_X + 1) * TILE_SIZE)) {
+			//Die Munition ist aus dem Bild geflogen.
+			return false;
+		}
+		else {
+			return true;
+		}
+		return false;
 	}
 
 	int get_position(char Achse) {
@@ -104,7 +110,7 @@ private:
 	int position_x;
 	int position_y;
 	int type;
-	int Speed = 0; //Speed in Pixel peer Tick
+	int Speed = 1; //Speed in Pixel peer Tick
 	Circle SVG_ammunition;
 };
 
@@ -159,18 +165,21 @@ public:
 	//Move Zomies and amunition. First the amo then the Zombies, Zombies test if they collide with Plants or amo
 	void Move_movable_Objekts() {
 		//Move amo
-		int X = 0;
-		do {
-			int CASH = List_of_Ammunition[X].Move_ammunition();
-			if (CASH == 1) {
-				vector<ammunition>::iterator it = List_of_Ammunition.begin();  // it steht auf Index 0
-				it = it + X;
-				List_of_Ammunition.erase(it);
-			}
-			else {
-				X = X+1;
-			}
-		} while (X <= List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
+		//NUR WENN MINDESTENS 1 Objekt da ist!!!!! sonst crasht das system
+		if (!List_of_Ammunition.empty()) {
+			int X = 0;
+			do {
+				int CASH = List_of_Ammunition[X].Move_ammunition();
+				if (CASH == false) {
+					vector<ammunition>::iterator it = List_of_Ammunition.begin();  // it steht auf Index 0
+					it = it + X;
+					List_of_Ammunition.erase(it);
+				}
+				else {
+					X++;
+				}
+			} while (X < List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
+		}
 		//Move Zombies
 
 	}
