@@ -147,6 +147,11 @@ private:
 		}
 		if (PLANTS_TEST == 1) {
 			//Teat also if a collision with plants heppend
+			int Zombie_that_stoped[List_of_Zombies.size()];
+			for (size_t i = 0; i < List_of_Zombies.size(); i++)
+			{
+				Zombie_that_stoped[i] = 0;
+			}
 			if ((List_of_PLants.empty() == false) && (List_of_Zombies.empty() == false)) {
 				while (plant_NR < List_of_PLants.size()) {
 					zombie_NR = 0;
@@ -157,10 +162,10 @@ private:
 							int Distance = List_of_PLants[plant_NR].get_position('x') - List_of_Zombies[zombie_NR].get_position('x');
 							//Betrage bilden
 							if (Distance < 0) {
-								Distance = Distance * -1;
+								Distance = Distance * (-1);
 							}
 
-							if (Distance < Plant_Radius) {
+							if (Distance < Plant_Radius*2) {
 
 								//Objekte sind im Spielfeld Kolidirt
 
@@ -179,14 +184,13 @@ private:
 											return;
 										}
 										//Zombie wieder Mobiel machen
-										List_of_Zombies[zombie_NR].set_collision(0);
+										Zombie_that_stoped[zombie_NR] = 0;
+										
 
 									}
 								}
 								//Festsetzen des Zombies
-								List_of_Zombies[zombie_NR].set_collision(1);
-
-
+								Zombie_that_stoped[zombie_NR] = 1;
 
 							}
 						}
@@ -197,6 +201,10 @@ private:
 					//Nächste Munition
 					plant_NR = plant_NR + 1;
 				}
+			}
+			for (size_t i = 0; i < List_of_Zombies.size(); i++)
+			{
+				List_of_Zombies[i].set_collision(Zombie_that_stoped[i]);
 			}
 		}
 
