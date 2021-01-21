@@ -9,6 +9,7 @@ Code zur steuerung der Pflanzen. geschriben für Aud Informatik Uni Osnabrück WS 
 
 #include <algoviz/SVG.hpp>
 #include <list>
+#include <iostream>
 
 #ifndef  TILE_SIZE
 #define TILE_SIZE 40
@@ -51,10 +52,25 @@ public:
 		}
 		return -1;
 	}
+	int get_health() {
+		return health;
+	}
+	int set_health(int health) {
+		this->health = health;
+		if (health < 0) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+
+
 private:
 	int Position_x;
 	int Position_y;
 	int Type_of_plant;
+	int health = 100;
 	Circle SVG_PLANT;
 };
 
@@ -76,7 +92,7 @@ public:
 		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
-	bool Move_ammunition() {
+	int Move_ammunition() {
 		//Calculate new X Position
 		position_x = position_x + Speed;
 
@@ -143,7 +159,10 @@ public:
 	}
 
 	int Move_Zombie() {
-		position_x = position_x - Speed;
+		if (flag_collision_plant == 0) {
+			//Nur wenn sich der Zombie noch bewegen soll
+			position_x = position_x - Speed;
+		}
 
 		//Move Objekt
 		SVG_Zombie.moveTo(position_x, position_y);
@@ -168,10 +187,10 @@ public:
 	int set_health(int health) {
 		this->health = health;
 		if (health < 0) {
-			return 0;
+			return 1;
 		}
 		else {
-			return 1;
+			return 0;
 		}
 	}
 
@@ -181,6 +200,9 @@ public:
 	}
 	int get_collision() {
 		return flag_collision_plant;
+	}
+	int get_strengh() {
+		return Strenght;
 	}
 
 private:
@@ -193,6 +215,7 @@ private:
 	int health = 100; //Helth value of the Zombie
 	int Damege_to_Plant;
 	int flag_collision_plant = 0;
+	int Strenght = 0;
 	Circle SVG_Zombie;
 };
 
@@ -237,7 +260,7 @@ public:
 			} while (X < List_of_Ammunition.size()); // solange nicht alle elemnete durchlaufen wurden
 		}
 
-		Check_Collision();
+		Check_Collision(0);
 
 		//Move Zombies
 		if (!List_of_Zombies.empty()) {
@@ -245,8 +268,8 @@ public:
 				int Zombie_Status = List_of_Zombies[i].Move_Zombie();
 			}
 		}
+		Check_Collision(1);
 	}
-
 
 
 
@@ -259,17 +282,15 @@ private:
 	SVG* pointer_to_window = nullptr;
 
 
-	void Check_Collision() {
+	void Check_Collision(int PLANTS_TEST) {
 		//Check if any amo colids with any Zombie
-		int amo_NR = -1;
+		int amo_NR = 0;
 		int zombie_NR = 0;
+		int plant_NR = 0;
 		if ((List_of_Ammunition.empty() == false) && (List_of_Zombies.empty() == false)) {
-			while (amo_NR <= List_of_Ammunition.size()) {
-				amo_NR = amo_NR + 1;
-				zombie_NR = -1;
-				while (zombie_NR <= List_of_Zombies.size()) {
-					//nächster Zombie
-					zombie_NR = zombie_NR + 1;
+			while (amo_NR < List_of_Ammunition.size()) {
+				zombie_NR = 0;
+				while (zombie_NR < List_of_Zombies.size()) {
 
 					if (List_of_Ammunition[amo_NR].get_position('y') == List_of_Zombies[zombie_NR].get_position('y')) {
 						//wenn sie eine Munition auf in der selben zeile wie ein Zombie Befindet
@@ -282,7 +303,7 @@ private:
 						if (Distance < 10) {
 							//sind die Objekte beide Hinter vor dem letzten Block?
 
-							if ((List_of_Ammunition[amo_NR].get_position('x') < PLAYGROUND_LENGHT) && (List_of_Zombies[amo_NR].get_position('x') < PLAYGROUND_LENGHT)) {
+							if ((List_of_Ammunition[amo_NR].get_position('x') < PLAYGROUND_LENGHT) && (List_of_Zombies[zombie_NR].get_position('x') < PLAYGROUND_LENGHT)) {
 								//Objekte sind im Spielfeld Kolidirt
 
 								//Abzihen der Lebenspunkte vom Zombie
@@ -297,23 +318,73 @@ private:
 									return;
 								}
 								//Testen ob der Zombie Gestorben ist?, dann aus liste Löschen.
-								if (Dead == 0) {
+								if (Dead == 1) {
 									vector<Zombie>::iterator it2 = List_of_Zombies.begin();  // it steht auf Index 0
 									it2 = it2 + zombie_NR;
 									List_of_Zombies.erase(it2);
-									zombie_NR = zombie_NR - 1;
 									if (List_of_Zombies.empty() == true) {
 										return;
 									}
 								}
-								amo_NR = amo_NR - 1;
+								//amo_NR = amo_NR - 1;
 							}
 						}
 					}
+					//nächster Zombie
+					zombie_NR = zombie_NR + 1;
+
+				}
+				//Nächste Munition
+				amo_NR = amo_NR + 1;
+			}
+		}
+		if (PLANTS_TEST == 1) {
+			//Teat also if a collision with plants heppend
+			if ((List_of_PLants.empty() == false) && (List_of_Zombies.empty() == false)) {
+				while (plant_NR < List_of_PLants.size()) {
+					zombie_NR = 0;
+					while (zombie_NR < List_of_Zombies.size()) {
+
+						if (List_of_PLants[plant_NR].get_position('y') == List_of_Zombies[zombie_NR].get_position('y')) {
+							//wenn sie eine Munition auf in der selben zeile wie ein Zombie Befindet
+							int Distance = List_of_PLants[plant_NR].get_position('x') - List_of_Zombies[zombie_NR].get_position('x');
+							//Betrage bilden
+							if (Distance < 0) {
+								Distance = Distance * -1;
+							}
+
+							if (Distance < 10) {
+
+								//Objekte sind im Spielfeld Kolidirt
+
+								//Abzihen der Lebenspunkte vom der Pflanze
+								int remainig_Live = List_of_PLants[plant_NR].get_health() - List_of_Zombies[zombie_NR].get_strengh();
+								int Dead = List_of_PLants[plant_NR].set_health(remainig_Live);
+
+								//Festsetzen des Zombies
+								List_of_Zombies[zombie_NR].set_collision(1);
+
+								//Pflanze Tot?
+								if (Dead == 1) {
+									vector<Plant>::iterator it = List_of_PLants.begin();  // it steht auf Index 0
+									it = it + plant_NR;
+									List_of_PLants.erase(it);
+									if (List_of_PLants.empty() == true) {
+										return;
+									}
+								}
+
+							}
+						}
+						//nächster Zombie
+						zombie_NR = zombie_NR + 1;
+
+					}
+					//Nächste Munition
+					plant_NR = plant_NR + 1;
 				}
 			}
 		}
-
 
 	}
 };
