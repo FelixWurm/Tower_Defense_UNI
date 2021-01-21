@@ -86,15 +86,15 @@ public:
 
 		//Different Typs:
 		if (type == 0) {
-			this->Speed = 2;
+			this->Speed = 6;
 			this->strengh = 20;
 		}
 		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
-	int Move_ammunition() {
+	int Move_ammunition(int loops_passed) {
 		//Calculate new X Position
-		position_x = position_x + Speed;
+		position_x = position_x + (Speed * loops_passed);
 
 		//Move Objekt
 		SVG_ammunition.moveTo(position_x, position_y);
@@ -128,9 +128,9 @@ public:
 
 private:
 	int position_x;
-	int position_y;
+	float position_y;
 	int type;
-	int Speed = 1; //Speed in Pixel peer Tick
+	float Speed = 3; //Speed in Pixel peer Tick
 	int strengh = 0;
 	Circle SVG_ammunition;
 };
@@ -150,18 +150,20 @@ public:
 
 		//Unterschiedliche Zombies
 		if (type == 0) {
-			this->Speed = 1;
+			this->Speed = 3;
 			this->Damege_to_Plant = 10;
 			this->health = 80;
+			this->Strenght = 10;
+			this->hit_frequenz = 30;
 		}
 
 
 	}
 
-	int Move_Zombie() {
+	int Move_Zombie(int loops_passed) {
 		if (flag_collision_plant == 0) {
 			//Nur wenn sich der Zombie noch bewegen soll
-			position_x = position_x - Speed;
+			position_x = position_x - (Speed * loops_passed);
 		}
 
 		//Move Objekt
@@ -205,17 +207,35 @@ public:
 		return Strenght;
 	}
 
+	//Counting system to determen wenn to hit a Plant
+
+	int get_atack_needet() {
+		hit_delay_counter = hit_delay_counter + 1;
+		if (hit_delay_counter > hit_frequenz) {
+			hit_delay_counter = 0;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 private:
-	int position_y;
-	int position_x = 0;
+	float position_y;
+	int position_x;
 	int type;
 
 	//Zombie / Game Values
-	int Speed = 0; //Speed in Pixel peer Tick
+	float Speed = 0.0; //Speed in Pixel peer Tick
 	int health = 100; //Helth value of the Zombie
 	int Damege_to_Plant;
 	int flag_collision_plant = 0;
 	int Strenght = 0;
+
+	//angriff von Pflanzen
+	int hit_delay_counter = 0;
+	int hit_frequenz = 30;
+
 	Circle SVG_Zombie;
 };
 
@@ -242,13 +262,13 @@ public:
 		List_of_Zombies.push_back(Zombie(Position_y_in, type, pointer_to_window));
 	}
 
-	void Move_movable_Objekts() {
+	void Move_movable_Objekts(int loops_passed) {
 		//Move amo
 		//NUR WENN MINDESTENS 1 Objekt da ist!!!!! sonst crasht das system
 		if (!List_of_Ammunition.empty()) {
 			int X = 0;
 			do {
-				int CASH = List_of_Ammunition[X].Move_ammunition();
+				int CASH = List_of_Ammunition[X].Move_ammunition(loops_passed);
 				if (CASH == false) {
 					vector<ammunition>::iterator it = List_of_Ammunition.begin();  // it steht auf Index 0
 					it = it + X;
@@ -265,7 +285,7 @@ public:
 		//Move Zombies
 		if (!List_of_Zombies.empty()) {
 			for (size_t i = 0; i < List_of_Zombies.size(); i++) {
-				int Zombie_Status = List_of_Zombies[i].Move_Zombie();
+				int Zombie_Status = List_of_Zombies[i].Move_Zombie(loops_passed);
 			}
 		}
 		Check_Collision(1);
@@ -353,26 +373,33 @@ private:
 								Distance = Distance * -1;
 							}
 
-							if (Distance < 10) {
+							if (Distance < Plant_Radius) {
 
 								//Objekte sind im Spielfeld Kolidirt
 
-								//Abzihen der Lebenspunkte vom der Pflanze
-								int remainig_Live = List_of_PLants[plant_NR].get_health() - List_of_Zombies[zombie_NR].get_strengh();
-								int Dead = List_of_PLants[plant_NR].set_health(remainig_Live);
+								//muss die pflanze angegriffen werden?
+								if (List_of_Zombies[zombie_NR].get_atack_needet() == true) {
+									//Abzihen der Lebenspunkte vom der Pflanze
+									int remainig_Live = List_of_PLants[plant_NR].get_health() - List_of_Zombies[zombie_NR].get_strengh();
+									int Dead = List_of_PLants[plant_NR].set_health(remainig_Live);
 
+									//Pflanze Tot?
+									if (Dead == 1) {
+										vector<Plant>::iterator it = List_of_PLants.begin();  // it steht auf Index 0
+										it = it + plant_NR;
+										List_of_PLants.erase(it);
+										if (List_of_PLants.empty() == true) {
+											return;
+										}
+										//Zombie wieder Mobiel machen
+										List_of_Zombies[zombie_NR].set_collision(0);
+
+									}
+								}
 								//Festsetzen des Zombies
 								List_of_Zombies[zombie_NR].set_collision(1);
 
-								//Pflanze Tot?
-								if (Dead == 1) {
-									vector<Plant>::iterator it = List_of_PLants.begin();  // it steht auf Index 0
-									it = it + plant_NR;
-									List_of_PLants.erase(it);
-									if (List_of_PLants.empty() == true) {
-										return;
-									}
-								}
+
 
 							}
 						}
