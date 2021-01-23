@@ -86,8 +86,8 @@ public:
 	}
 
 private:
-	float position_y;
-	int position_x;
+	int position_y;
+	float position_x;
 	int type;
 
 	//Zombie / Game Values
