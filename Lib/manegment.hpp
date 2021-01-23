@@ -79,6 +79,17 @@ public:
 			}
 		}
 		Check_Collision(1);
+
+
+		//schieﬂen der Munition
+
+		for (int plant_NR = 0; plant_NR < List_of_PLants.size(); plant_NR++) {
+			if (List_of_PLants[plant_NR].get_shoot_needet() == true) {
+				List_of_Ammunition.push_back(ammunition(List_of_PLants[plant_NR].get_position('x'), List_of_PLants[plant_NR].get_position('y'), List_of_PLants[plant_NR].get_ammunition_type(), pointer_to_window));
+			}
+		}
+
+
 	}
 
 	int Game_finished() {
