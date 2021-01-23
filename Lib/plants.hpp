@@ -17,8 +17,9 @@ public:
 		this->Position_x = Position_x_in;
 		this->Position_y = Position_y_in;
 		this->Type_of_plant = type;
-		SVG_PLANT = Circle(Position_x, Position_y, Plant_Radius, pointer_to_window);
-		SVG_PLANT.setFill(200, 0, 0);
+		//SVG_PLANT = Circle(Position_x, Position_y, Plant_Radius, pointer_to_window);
+		//SVG_PLANT = Image("/img/plant1_400x400", (Position_x-(TILE_SIZE/2))+((TILE_SIZE - PLANT_SIZE)/2), (Position_y - (TILE_SIZE / 2)) + ((TILE_SIZE - PLANT_SIZE) / 2), PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+		SVG_PLANT = Image("img/plant1_400x400.png", Position_x,Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
 
 	}
 
@@ -51,6 +52,6 @@ private:
 	int Position_y;
 	int Type_of_plant;
 	int health = 100;
-	Circle SVG_PLANT;
+	Image SVG_PLANT;
 };
 

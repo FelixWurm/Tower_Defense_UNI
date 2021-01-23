@@ -1,6 +1,7 @@
 #define Plant_Radius 15
 #define MUNITION_RADIUS 5
-
+#define PLANT_SIZE 40
+#define ZOMBIE_SIZE 40
 
 #include <algoviz/SVG.hpp>
 #include <list>
@@ -27,10 +28,12 @@
 
 
 
+
 class Manegment {
 public:
-	Manegment(SVG* pointer_to_window_in) {
+	Manegment(SVG* pointer_to_window_in,int  target_zombies_suvived) {
 		this->pointer_to_window = pointer_to_window_in;
+		this->target_zombies_suvived = target_zombies_suvived;
 	}
 
 	//Add stuff
@@ -78,7 +81,28 @@ public:
 		Check_Collision(1);
 	}
 
+	int Game_finished() {
+		if (target_zombies_suvived < 0) {
+			return true;
+		}
+		return false;
+	}
+	int Game_lost() {
+		int zombies_smaller_zero = 0;
+		for (int zombie_NR = 0; zombie_NR < List_of_Zombies.size(); zombie_NR++){
+			if (List_of_Zombies[zombie_NR].get_position('x') < 0) {
+				zombies_smaller_zero = zombies_smaller_zero + 1;
+			}
 
+		}
+		return zombies_smaller_zero;
+	}
+
+
+
+	int Score() {
+		return 0;
+	}
 
 private:
 
@@ -88,6 +112,7 @@ private:
 
 	SVG* pointer_to_window = nullptr;
 
+	int target_zombies_suvived = 0;
 
 	void Check_Collision(int PLANTS_TEST) {
 		//Check if any amo colids with any Zombie

@@ -8,13 +8,14 @@ public:
 		position_x = TILE_SIZE * (TILE_COUNT_X + 1);
 
 		this->position_y = Position_y_in;
-		this->SVG_Zombie = Circle(position_x, position_y, Plant_Radius, pointer_to_window);
-		SVG_Zombie.setFill(50, 50, 50);
 
 		//Unterschiedliche Zombies
 		if (type == 0) {
-			this->Speed = 3;
-			this->Damege_to_Plant = 10;
+			SVG_Zombie = Image("img/zombie1_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
+
+
+			this->Speed = 0.3;
+			this->Damege_to_Plant = 8;
 			this->health = 80;
 			this->Strenght = 10;
 			//30 = 1per Sec so 1HZ
@@ -100,5 +101,5 @@ private:
 	int hit_delay_counter = 0;
 	int hit_frequenz = 30;
 
-	Circle SVG_Zombie;
+	Image SVG_Zombie;
 };
