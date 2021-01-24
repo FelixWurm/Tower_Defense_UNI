@@ -28,7 +28,6 @@ public:
 			ammunition_type = 0;
 
 		}
-
 	}
 
 	//wo ist die Pflanze?

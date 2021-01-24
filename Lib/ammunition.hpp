@@ -1,3 +1,10 @@
+/*
+Code für das Verwalten der Munition.
+
+*/
+
+
+
 class ammunition {
 public:
 	ammunition() {
