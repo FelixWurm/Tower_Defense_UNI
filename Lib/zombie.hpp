@@ -21,6 +21,28 @@ public:
 			//30 = 1per Sec so 1HZ
 			this->hit_frequenz = 30;
 		}
+		if (type == 1) {
+			SVG_Zombie = Image("img/zombie1_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
+
+
+			this->Speed = 0.3;
+			this->Damege_to_Plant = 8;
+			this->health = 80;
+			this->Strenght = 10;
+			//30 = 1per Sec so 1HZ
+			this->hit_frequenz = 30;
+		}
+		if (type == 2) {
+			SVG_Zombie = Image("img/zombie1_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
+
+
+			this->Speed = 0.3;
+			this->Damege_to_Plant = 8;
+			this->health = 80;
+			this->Strenght = 10;
+			//30 = 1per Sec so 1HZ
+			this->hit_frequenz = 30;
+		}
 
 
 	}

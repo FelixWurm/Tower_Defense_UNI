@@ -114,9 +114,18 @@ public:
 		return zombies_smaller_zero;
 	}
 
+	int get_plant_at_this_position(int position_x, int position_y) {
+		for(int plant_NR = 0; plant_NR< List_of_PLants.size(); plant_NR++){
+			if (position_x == List_of_PLants[plant_NR].get_position('x') && position_y == List_of_PLants[plant_NR].get_position('y')) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 	int Score() {
+		//currently no in use
 		return 0;
 	}
 

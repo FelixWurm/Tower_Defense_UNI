@@ -20,6 +20,10 @@ public:
 			this->Speed = 6;
 			this->strengh = 20;
 		}
+		if (type == 1) {
+			this->Speed = 6;
+			this->strengh = 20;
+		}
 		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 

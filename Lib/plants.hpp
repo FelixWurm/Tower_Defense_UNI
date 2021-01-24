@@ -28,6 +28,24 @@ public:
 			ammunition_type = 0;
 
 		}
+		if (type == 1) {
+			//set correct Image
+			SVG_PLANT = Image("img/plant1_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			frequency = 150;
+			frequency = shoot_delay_counter;
+			health = 100;
+			ammunition_type = 0;
+
+		}
+		if (type == 2) {
+			//set correct Image
+			SVG_PLANT = Image("img/plant1_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			frequency = 150;
+			frequency = shoot_delay_counter;
+			health = 100;
+			ammunition_type = 0;
+
+		}
 	}
 
 	//wo ist die Pflanze?
