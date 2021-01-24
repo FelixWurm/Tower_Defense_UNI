@@ -4,7 +4,7 @@ Code für das verwalten der Spielobjekte
 
 
 #define Plant_Radius 15
-#define MUNITION_RADIUS 5
+#define MUNITION_RADIUS 20
 #define PLANT_SIZE 40
 #define ZOMBIE_SIZE 40
 

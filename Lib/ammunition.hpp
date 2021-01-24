@@ -19,13 +19,13 @@ public:
 		if (type == 0) {
 			this->Speed = 6;
 			this->strengh = 20;
-			SVG_Zombie = Image("img/ammo_100x100.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
+			SVG_ammunition = Image("img/ammo_100x100.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
 
 		}
 		if (type == 1) {
 			this->Speed = 6;
 			this->strengh = 20;
-			SVG_Zombie = Image("img/ammo_100x100.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
+			SVG_ammunition = Image("img/pwr_ammo.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
 
 		}
 	}
@@ -70,7 +70,7 @@ private:
 	int type;
 	float Speed = 3; //Speed in Pixel peer Tick
 	int strengh = 0;
-	Circle SVG_ammunition;
+	Image SVG_ammunition;
 };
 
 
