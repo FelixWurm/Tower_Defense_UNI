@@ -30,7 +30,7 @@ public:
 		}
 		if (type == 1) {
 			//set correct Image
-			SVG_PLANT = Image("img/plant1_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			SVG_PLANT = Image("img/plant2_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
 			frequency = 150;
 			frequency = shoot_delay_counter;
 			health = 100;
@@ -39,7 +39,16 @@ public:
 		}
 		if (type == 2) {
 			//set correct Image
-			SVG_PLANT = Image("img/plant1_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			SVG_PLANT = Image("img/plant3_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			frequency = 150;
+			frequency = shoot_delay_counter;
+			health = 100;
+			ammunition_type = 0;
+
+		}
+		if (type == 3) {
+			//set correct Image
+			SVG_PLANT = Image("img/plant4_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
 			frequency = 150;
 			frequency = shoot_delay_counter;
 			health = 100;
@@ -47,6 +56,7 @@ public:
 
 		}
 	}
+		
 
 	//wo ist die Pflanze?
 	int get_position(char Achse) {

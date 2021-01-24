@@ -19,12 +19,15 @@ public:
 		if (type == 0) {
 			this->Speed = 6;
 			this->strengh = 20;
+			SVG_Zombie = Image("img/ammo_100x100.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
+
 		}
 		if (type == 1) {
 			this->Speed = 6;
 			this->strengh = 20;
+			SVG_Zombie = Image("img/ammo_100x100.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
+
 		}
-		this->SVG_ammunition = Circle(position_x, position_y, MUNITION_RADIUS, pointer_to_window);
 	}
 
 	int Move_ammunition(int loops_passed) {

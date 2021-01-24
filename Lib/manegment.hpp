@@ -98,7 +98,8 @@ public:
 	}
 
 	int Game_finished() {
-		if (target_zombies_suvived < 0) {
+		int delta_zombies = target_zombies_suvived - zombies_suvives;
+		if (delta_zombies < 0) {
 			return true;
 		}
 		return false;
@@ -124,9 +125,8 @@ public:
 	}
 
 
-	int Score() {
-		//currently no in use
-		return 0;
+	int get_zombies_killed() {
+		return zombies_suvives;
 	}
 
 private:
@@ -138,6 +138,7 @@ private:
 	SVG* pointer_to_window = nullptr;
 
 	int target_zombies_suvived = 0;
+	int zombies_suvives = 0;
 
 	void Check_Collision(int PLANTS_TEST) {
 		//Check if any amo colids with any Zombie
@@ -182,6 +183,8 @@ private:
 									if (List_of_Zombies.empty() == true) {
 										return;
 									}
+									//zahl der gestorbenen zombies um 1 erhöhen
+									zombies_suvives = zombies_suvives +1 ;
 								}
 								//amo_NR = amo_NR - 1;
 							}

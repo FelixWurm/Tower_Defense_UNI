@@ -22,7 +22,7 @@ public:
 			this->hit_frequenz = 30;
 		}
 		if (type == 1) {
-			SVG_Zombie = Image("img/zombie1_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
+			SVG_Zombie = Image("img/zombie2_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
 
 
 			this->Speed = 0.3;
@@ -33,7 +33,7 @@ public:
 			this->hit_frequenz = 30;
 		}
 		if (type == 2) {
-			SVG_Zombie = Image("img/zombie1_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
+			SVG_Zombie = Image("img/zombie3_400x400.png", position_x, position_y, ZOMBIE_SIZE, ZOMBIE_SIZE, pointer_to_window);
 
 
 			this->Speed = 0.3;
