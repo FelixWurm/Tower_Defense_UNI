@@ -23,8 +23,8 @@ public:
 
 		}
 		if (type == 1) {
-			this->Speed = 6;
-			this->strengh = 20;
+			this->Speed = 4;
+			this->strengh = 40;
 			SVG_ammunition = Image("img/pwr_ammo.png", position_x, position_y, MUNITION_RADIUS, MUNITION_RADIUS, pointer_to_window);
 
 		}

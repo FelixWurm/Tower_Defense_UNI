@@ -36,7 +36,7 @@ Code für das verwalten der Spielobjekte
 
 class Manegment {
 public:
-	Manegment(SVG* pointer_to_window_in,int  target_zombies_suvived) {
+	Manegment(SVG* pointer_to_window_in, int  target_zombies_suvived) {
 		this->pointer_to_window = pointer_to_window_in;
 		this->target_zombies_suvived = target_zombies_suvived;
 	}
@@ -106,7 +106,7 @@ public:
 	}
 	int Game_lost() {
 		int zombies_smaller_zero = 0;
-		for (int zombie_NR = 0; zombie_NR < List_of_Zombies.size(); zombie_NR++){
+		for (int zombie_NR = 0; zombie_NR < List_of_Zombies.size(); zombie_NR++) {
 			if (List_of_Zombies[zombie_NR].get_position('x') < 0) {
 				zombies_smaller_zero = zombies_smaller_zero + 1;
 			}
@@ -116,7 +116,7 @@ public:
 	}
 
 	int get_plant_at_this_position(int position_x, int position_y) {
-		for(int plant_NR = 0; plant_NR< List_of_PLants.size(); plant_NR++){
+		for (int plant_NR = 0; plant_NR < List_of_PLants.size(); plant_NR++) {
 			if (position_x == List_of_PLants[plant_NR].get_position('x') && position_y == List_of_PLants[plant_NR].get_position('y')) {
 				return true;
 			}
@@ -128,6 +128,17 @@ public:
 	int get_zombies_killed() {
 		return zombies_suvives;
 	}
+
+	int get_number_of_coinplant() {
+		int count = 0;
+		for (int plant_NR = 0; plant_NR < List_of_PLants.size(); plant_NR++) {
+			if (List_of_PLants[plant_NR].get_type() == 3) {
+				count = count + 1;
+			}
+		}
+		return count;
+	}
+
 
 private:
 
@@ -184,7 +195,7 @@ private:
 										return;
 									}
 									//zahl der gestorbenen zombies um 1 erhöhen
-									zombies_suvives = zombies_suvives +1 ;
+									zombies_suvives = zombies_suvives + 1;
 								}
 								//amo_NR = amo_NR - 1;
 							}
@@ -218,7 +229,7 @@ private:
 								Distance = Distance * (-1);
 							}
 
-							if (Distance < Plant_Radius*2) {
+							if (Distance < Plant_Radius * 2) {
 
 								//Objekte sind im Spielfeld Kolidirt
 
@@ -238,7 +249,7 @@ private:
 										}
 										//Zombie wieder Mobiel machen
 										Zombie_that_stoped[zombie_NR] = 0;
-										
+
 
 									}
 								}

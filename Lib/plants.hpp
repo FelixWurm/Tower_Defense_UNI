@@ -21,7 +21,7 @@ public:
 		//SVG_PLANT = Image("/img/plant1_400x400", (Position_x-(TILE_SIZE/2))+((TILE_SIZE - PLANT_SIZE)/2), (Position_y - (TILE_SIZE / 2)) + ((TILE_SIZE - PLANT_SIZE) / 2), PLANT_SIZE, PLANT_SIZE, pointer_to_window);
 		if (type == 0) {
 			//set correct Image
-			SVG_PLANT = Image("img/plant1_400x400.png", Position_x,Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
+			SVG_PLANT = Image("img/plant1_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
 			frequency = 150;
 			frequency = shoot_delay_counter;
 			health = 100;
@@ -31,18 +31,18 @@ public:
 		if (type == 1) {
 			//set correct Image
 			SVG_PLANT = Image("img/plant2_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
-			frequency = 150;
+			frequency = 100;
 			frequency = shoot_delay_counter;
-			health = 100;
-			ammunition_type = 0;
+			health = 80;
+			ammunition_type = 1;
 
 		}
 		if (type == 2) {
 			//set correct Image
 			SVG_PLANT = Image("img/plant3_400x400.png", Position_x, Position_y, PLANT_SIZE, PLANT_SIZE, pointer_to_window);
-			frequency = 150;
+			frequency = 200;
 			frequency = shoot_delay_counter;
-			health = 100;
+			health = 120;
 			ammunition_type = 0;
 
 		}
@@ -56,7 +56,7 @@ public:
 
 		}
 	}
-		
+
 
 	//wo ist die Pflanze?
 	int get_position(char Achse) {
@@ -82,18 +82,26 @@ public:
 	}
 
 	int get_shoot_needet() {
-		shoot_delay_counter++;
-		if (shoot_delay_counter > frequency) {
-			shoot_delay_counter = 0;
-			return true;
+		if (type == 3) {
+			return false;
 		}
 		else {
-			return false;
+			shoot_delay_counter++;
+			if (shoot_delay_counter > frequency) {
+				shoot_delay_counter = 0;
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 
 	int get_ammunition_type() {
 		return ammunition_type;
+	}
+	int get_type() {
+		return type;
 	}
 
 private:
