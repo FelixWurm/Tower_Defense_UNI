@@ -2,6 +2,8 @@
 
 The naming of the Versions is as [version Status] - 0-[Month]-[DAY]-[Daly Version number]
 
+#ACHTUNG BITTE IM JUPITER FILE 9000 DURCH 900 IM MAIN BLOCK ERSETZEN!
+
 ## To Do Liste
 
   1. Zombies Einbaen fertig
